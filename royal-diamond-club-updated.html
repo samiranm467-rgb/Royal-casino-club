@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#160d2c">
+<title>Royal Diamond Club</title>
+<style>
+:root{--bg:#10091f;--panel:#21143a;--panel2:#2b1b48;--gold:#ffd56a;--text:#fff8e8;--muted:#c6b9dc;--green:#72e0ae;--red:#ff8c9a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#342052 0,#10091f 55%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:auto;padding:18px 14px 36px}.hero{text-align:center;padding:20px 8px 16px}.gem{font-size:42px}.hero h1{color:var(--gold);margin:6px 0;font-size:clamp(25px,6vw,36px)}.hero p{color:var(--muted);margin:4px 0}
+.balance{display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(120deg,#37234e,#21143a);border:1px solid #5c427b;border-radius:18px;padding:15px 17px;margin:12px 0 20px}.balance small{color:var(--muted)}.coins{font-size:25px;font-weight:800;color:var(--gold)}button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font-weight:750;min-height:44px}.gold{background:linear-gradient(135deg,#ffe79b,#e8ae38);color:#24152e}.soft{background:#493365;color:white;border:1px solid #674a87}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid #4e386a;border-radius:17px;padding:16px;min-width:0}.card .emoji{font-size:34px}.card h3{margin:8px 0 5px}.card p{color:var(--muted);font-size:13px;min-height:35px;margin:0 0 12px}.card button{width:100%}.section{margin-top:22px}.section h2{font-size:19px;margin:0 0 10px}.gamebox{margin-top:18px;background:#1b1030;border:1px solid #5c427b;border-radius:18px;padding:17px}.gamebox h2{margin-top:0}.hidden{display:none!important}.arena{background:#120a20;border-radius:14px;padding:18px;text-align:center;margin:12px 0}.big{font-size:clamp(28px,8vw,46px);font-weight:900;color:var(--gold);margin:8px}.status{color:var(--muted);min-height:24px}.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.row button{flex:1;min-width:115px}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:14px auto}.tile{font-size:25px;min-height:65px;background:#382552;border:1px solid #674a87;color:white}.tile:disabled{opacity:1}.slot{font-size:43px;letter-spacing:8px}.road{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:15px 0}.step{padding:12px;border-radius:10px;background:#382552;min-width:44px}.step.active{outline:2px solid var(--gold)}.notice{font-size:12px;color:var(--muted);text-align:center;margin:22px 8px 0;line-height:1.5}.toast{color:var(--green);font-weight:700;min-height:24px;text-align:center}
+@media(max-width:420px){.wrap{padding:12px 10px 28px}.card{padding:13px}.balance{padding:13px}.grid{gap:9px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div class="gem">💎</div><h1>ROYAL DIAMOND CLUB</h1><p>Your Virtual Gaming Lounge</p></header>
+<div class="balance"><div><small>YOUR DEMO BALANCE</small><div class="coins"><span id="coins">1000</span> 🪙</div></div><button class="gold" id="daily">Collect +50</button></div>
+<div class="section"><h2>🎮 Choose Your Game</h2><div class="grid">
+<article class="card"><div class="emoji">💥</div><h3>Crash Demo</h3><p>Watch the multiplier and cash out in time.</p><button class="gold" data-game="crash">Play Demo</button></article>
+<article class="card"><div class="emoji">🐔</div><h3>Chicken Road</h3><p>Move step by step and avoid the hazard.</p><button class="gold" data-game="chicken">Play Demo</button></article>
+<article class="card"><div class="emoji">🎰</div><h3>Lucky Slots</h3><p>Spin three reels for a virtual prize.</p><button class="gold" data-game="slots">Play Demo</button></article>
+<article class="card"><div class="emoji">💎</div><h3>Diamond Hunt</h3><p>Find a hidden diamond in the grid.</p><button class="gold" data-game="hunt">Play Demo</button></article>
+</div></div>
+<div class="section"><h2>✨ More Club Features</h2><div class="grid">
+<article class="card"><div class="emoji">🎡</div><h3>Spin Wheel</h3><p>A simple bonus wheel is coming next.</p><button class="soft" data-coming="Spin Wheel">Coming Next</button></article>
+<article class="card"><div class="emoji">🏆</div><h3>Daily Rewards</h3><p>Collect your demo coins once per page session.</p><button class="soft" id="reward2">Get Reward</button></article>
+<article class="card"><div class="emoji">🎯</div><h3>Lucky Number</h3><p>Guess a number in a future update.</p><button class="soft" data-coming="Lucky Number">Coming Next</button></article>
+<article class="card"><div class="emoji">👤</div><h3>Player Profile</h3><p>Your balance is stored only on this page for now.</p><button class="soft" id="profile">View Profile</button></article>
+</div></div>
+<section class="gamebox hidden" id="gamebox" aria-live="polite"><h2 id="gameTitle">Game</h2><div id="gameContent"></div><div class="toast" id="toast"></div><div class="row"><button class="soft" id="close">Back to Games</button></div></section>
+<p class="notice">DEMO ONLY • Virtual coins have no cash value. No deposits, withdrawals, or real-money prizes. Balance and game results are local to this page and are not stored on a server.</p>
+</div>
+<script>
+(function(){
+let balance=1000, dailyClaimed=false, crashTimer=null, crashValue=1, crashRunning=false, chickenStep=0, huntTarget=-1, huntUsed=false;
+const $=id=>document.getElementById(id), coins=$('coins'), box=$('gamebox'), content=$('gameContent'), title=$('gameTitle'), toast=$('toast');
+function update(){coins.textContent=balance}
+function say(s){toast.textContent=s}
+function pay(cost){if(balance<cost){say('Not enough demo coins. Collect your daily bonus.');return false}balance-=cost;update();return true}
+function earn(n){balance+=n;update();say('You won '+n+' demo coins!')}
+function openGame(which){clearInterval(crashTimer);crashRunning=false;box.classList.remove('hidden');toast.textContent='';
+if(which==='crash'){title.textContent='💥 Crash Demo';content.innerHTML='<p class="status">Start a round for 20 coins, then cash out before the multiplier crashes.</p><div class="arena"><div class="status" id="crashStatus">Ready?</div><div class="big" id="mult">1.00×</div></div><div class="row"><button class="gold" id="startCrash">Start round (20)</button><button class="soft" id="cashout" disabled>Cash out</button></div>'; $('startCrash').onclick=()=>{if(crashRunning)return;if(!pay(20))return;crashValue=1;crashRunning=true;$('startCrash').disabled=true;$('cashout').disabled=false;$('crashStatus').textContent='Flying! Cash out when you want.';crashTimer=setInterval(()=>{crashValue+=Math.random()*.17+.03;$('mult').textContent=crashValue.toFixed(2)+'×';if(Math.random()<.055||crashValue>4.5){clearInterval(crashTimer);crashRunning=false;$('cashout').disabled=true;$('startCrash').disabled=false;$('crashStatus').textContent='Crashed! Try again.';say('Round ended. Demo coins are just for fun.')}},400)};$('cashout').onclick=()=>{if(!crashRunning)return;clearInterval(crashTimer);crashRunning=false;$('cashout').disabled=true;$('startCrash').disabled=false;let win=Math.floor(20*crashValue);earn(win);$('crashStatus').textContent='Cashed out at '+crashValue.toFixed(2)+'×';};}
+if(which==='chicken'){title.textContent='🐔 Chicken Road';chickenStep=0;renderChicken();}
+if(which==='slots'){title.textContent='🎰 Lucky Slots';content.innerHTML='<p class="status">Spin costs 10 demo coins. Match symbols to win.</p><div class="arena"><div class="slot" id="reels">🍒 ⭐ 💎</div><div class="status" id="slotStatus">Ready to spin?</div></div><button class="gold" id="spin">Spin (10 coins)</button>'; $('spin').onclick=()=>{if(!pay(10))return;const symbols=['🍒','⭐','💎','🔔','7️⃣'];let a=symbols[Math.floor(Math.random()*5)],b=symbols[Math.floor(Math.random()*5)],c=symbols[Math.floor(Math.random()*5)];$('reels').textContent=a+' '+b+' '+c;let win=0;if(a===b&&b===c)win=100;else if(a===b||b===c||a===c)win=25;$('slotStatus').textContent=win?'Match! +'+win+' coins':'No match this time.';if(win)earn(win)};}
+if(which==='hunt'){title.textContent='💎 Diamond Hunt';huntUsed=false;huntTarget=Math.floor(Math.random()*9);content.innerHTML='<p class="status">Choose one tile. It costs 5 demo coins per try.</p><div class="tiles" id="tiles"></div>';let t=$('tiles');for(let i=0;i<9;i++){let b=document.createElement('button');b.className='tile';b.textContent='❔';b.setAttribute('aria-label','Tile '+(i+1));b.onclick=()=>{if(b.disabled)return;if(!pay(5))return;b.disabled=true;if(i===huntTarget){b.textContent='💎';earn(40);$('huntMsg').textContent='You found the diamond! +40 coins.';Array.from(t.children).forEach(x=>x.disabled=true)}else{b.textContent='🪨';$('huntMsg').textContent='Not this one. Try another tile.'}};t.appendChild(b)}let msg=document.createElement('p');msg.id='huntMsg';msg.className='status';msg.textContent='Find the hidden diamond!';content.appendChild(msg);}
+}
+function renderChicken(){content.innerHTML='<p class="status">Each move costs 10 demo coins. Reach step 5 to win a bonus, but a hazard can end the round.</p><div class="road" id="road"></div><div class="arena"><div class="big" id="chick">🐔</div><div class="status" id="chickStatus">Ready to cross?</div></div><div class="row"><button class="gold" id="move">Move forward (10)</button><button class="soft" id="restart">New road</button></div>';let road=$('road');for(let i=0;i<5;i++){let d=document.createElement('div');d.className='step'+(i===chickenStep?' active':'');d.textContent=i+1;road.appendChild(d)}$('move').onclick=()=>{if(chickenStep>=5)return;if(!pay(10))return;if(Math.random()<.22){$('chick').textContent='💥';$('chickStatus').textContent='Oops! Hazard hit. Start a new road.';$('move').disabled=true;return}chickenStep++;$('chick').textContent='🐔';Array.from(road.children).forEach((x,i)=>x.classList.toggle('active',i===chickenStep));if(chickenStep>=5){$('chickStatus').textContent='Safe crossing! +60 demo coins.';earn(60);$('move').disabled=true}else $('chickStatus').textContent='Nice! Step '+chickenStep+' of 5.'};$('restart').onclick=()=>{chickenStep=0;renderChicken()}}
+document.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>openGame(b.dataset.game)));
+$('close').onclick=()=>{clearInterval(crashTimer);crashRunning=false;box.classList.add('hidden')};
+function daily(){if(dailyClaimed){say('Daily bonus already collected in this session.');return}dailyClaimed=true;earn(50);$('daily').disabled=true;$('daily').textContent='Collected ✓';}
+$('daily').onclick=daily;$('reward2').onclick=daily;
+document.querySelectorAll('[data-coming]').forEach(b=>b.onclick=()=>alert(b.dataset.coming+' will be added in a later update.'));
+$('profile').onclick=()=>alert('Royal Diamond Club\\nDemo balance: '+balance+' coins\\nThis is a local demo profile.');
+update();
+})();
+</script>
+</body>
+</html>
